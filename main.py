@@ -1,6 +1,6 @@
 from pprint import pprint
 import requests
-response = requests.get(f'https://superheroapi.com/api/2619421814940190/search/batman')
+response = requests.get(f'https://superheroapi.com/api/access-token/search/batman')
 dict = response.json()
 
 def intelligence_hero(dict):
