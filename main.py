@@ -1,21 +1,22 @@
-from pprint import pprint
 import requests
-response = requests.get(f'https://superheroapi.com/api/access-token/search/batman')
-dict = response.json()
 
-def intelligence_hero(dict):
+API_KEY = ''
+
+def intelligencehero(heroes: list, apikey: str):
     counter = 0
     max_iq = 0
     name_hero: str
-    id_hero: str
+    for hero in heroes:
+        response = requests.get(f'https://superheroapi.com/api/{apikey}/search/{hero}')
+        dict = response.json()
+        if int(dict['results'][counter]['powerstats']['intelligence']) > int(max_iq):
+             max_iq = dict['results'][counter]['powerstats']['intelligence']
+             name_hero = dict['results'][counter]['name']
 
-    for _ in range(3):
-       if int(dict['results'][counter]['powerstats']['intelligence']) > int(max_iq):
-            max_iq = dict['results'][counter]['powerstats']['intelligence']
-            name_hero = dict['results'][counter]['name']
-            id_hero = dict['results'][counter]['id']
-       counter += 1
-    print()
-    print(f'ID: {id_hero} - Самый умный персонаж "{name_hero}" c IQ:{max_iq}')
+    counter += 1
+    return f'Самый умный: {name_hero}'
 
-intelligence_hero(dict)
+heroes_list = ['Hulk', 'Captain America', 'Thanos']
+
+result = intelligencehero(heroes_list, API_KEY)
+print(result)
